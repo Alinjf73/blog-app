@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <div className="bg-secondary-0">
       <div className="grid grid-cols-12 h-screen">
-        <aside className="col-span-12 lg:col-span-3 xl:col-span-2 hidden lg:block">
+        <aside className="col-span-12 lg:col-span-3 xl:col-span-2 hidden lg:block z-50">
           <SideBar />
         </aside>
         <div className="col-span-12 lg:col-span-9 xl:col-span-10 h-screen flex flex-col">

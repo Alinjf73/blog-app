@@ -1,6 +1,11 @@
 "use client";
 
-import { getUserApi, signinApi, signupApi } from "@/services/authService";
+import {
+  getUserApi,
+  logoutApi,
+  signinApi,
+  signupApi,
+} from "@/services/authService";
 import { useRouter } from "next/navigation";
 
 import { createContext, useReducer, useContext, useEffect } from "react";
@@ -15,46 +20,48 @@ const initialState = {
   error: null,
 };
 
-const authReducer = (state, action) => {
+function authReducer(state, action) {
   switch (action.type) {
     case "loading":
       return {
         ...state,
         isLoading: true,
       };
-
     case "rejected":
       return {
         ...state,
-        isAuthenticated: false,
-        error: action.payload,
         isLoading: false,
+        error: action.payload,
       };
-
     case "signin":
       return {
         user: action.payload,
         isAuthenticated: true,
       };
-
     case "signup":
       return {
         user: action.payload,
         isAuthenticated: true,
       };
-
     case "user/loaded":
       return {
         user: action.payload,
         isAuthenticated: true,
       };
+    case "logout":
+      return {
+        user: null,
+        isAuthenticated: false,
+      };
+    default:
+      throw new Error("Unknown action!");
   }
-};
+}
 
 export default function AuthProvider({ children }) {
   const router = useRouter();
 
-  const [{ user, isAuthenticated, isLoading, error }, dispatch] = useReducer(
+  const [{ user, isAuthenticated, isLoading }, dispatch] = useReducer(
     authReducer,
     initialState
   );
@@ -98,6 +105,16 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function logout() {
+    try {
+      await logoutApi();
+      router.push("/");
+      dispatch({ type: "logout" });
+    } catch (error) {
+      toast.error(error);
+    }
+  }
+
   useEffect(() => {
     async function fetchData() {
       await getUser();
@@ -108,7 +125,15 @@ export default function AuthProvider({ children }) {
 
   return (
     <Authcontext.Provider
-      value={{ user, isAuthenticated, isLoading, signin, signup }}
+      value={{
+        user,
+        isAuthenticated,
+        isLoading,
+        signin,
+        signup,
+        logout,
+        getUser,
+      }}
     >
       {children}
     </Authcontext.Provider>

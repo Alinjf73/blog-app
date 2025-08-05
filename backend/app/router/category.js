@@ -16,6 +16,9 @@ router.get(
   "/list",
   expressAsyncHandler(CategoryController.getListOfCategories)
 );
+
+router.get("/:id", expressAsyncHandler(CategoryController.getCategoryById));
+
 router.patch(
   "/update/:id",
   verifyAccessToken,

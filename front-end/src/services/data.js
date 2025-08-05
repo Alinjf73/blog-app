@@ -24,7 +24,6 @@ export async function fetchCardData() {
       numOfComments,
     };
   } catch (error) {
-    console.log(error.response.data.message);
     throw new Error("خطا در بارگذاری اطلاعات");
   }
 }

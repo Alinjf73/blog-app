@@ -12,11 +12,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
-import useCreatePost from "./useCreatePost";
 import { useRouter } from "next/navigation";
 import SpinnerMini from "@/ui/SpinnerMini";
-import useEditPost from "./useEditPost";
 import { imageUrlToFile } from "@/utils/fileFormatter";
+import { useCreatePost, useEditPost } from "@/hooks/usePosts";
 
 const schema = yup
   .object({

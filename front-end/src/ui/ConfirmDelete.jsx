@@ -7,7 +7,12 @@ function ConfirmDelete({ resourceName, onClose, disabled, onConfirm }) {
       <h2 className="font-bold text-base mb-8 text-secondary-700">
         آیا از حذف {resourceName} مطمین هستید؟
       </h2>
-      <form onSubmit={onConfirm}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onConfirm();
+        }}
+      >
         <div className="flex justify-between items-center gap-x-16">
           <Button
             className="flex-1"

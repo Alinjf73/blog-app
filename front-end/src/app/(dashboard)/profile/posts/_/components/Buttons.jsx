@@ -5,8 +5,8 @@ import Modal from "@/ui/Modal";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useState } from "react";
-import useDeletePost from "../useDeletePost";
 import { useRouter } from "next/navigation";
+import { useDeletePost } from "@/hooks/usePosts";
 
 export function CreatePost() {
   return (

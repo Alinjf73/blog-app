@@ -11,7 +11,7 @@ export default function Search() {
   const formSubmit = (e) => {
     e.preventDefault();
     const search = e.target.search;
-    const searchValue = search.value;
+    const searchValue = search.value.trim();
 
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.set("page", "1");
@@ -24,19 +24,17 @@ export default function Search() {
   };
 
   return (
-    <form className="relative" onSubmit={formSubmit}>
+    <form className="flex items-center" onSubmit={formSubmit}>
       <input
         type="text"
         name="search"
         placeholder="جستجو ..."
         autoComplete="off"
-        className="textField__input py-3 text-xs bg-secondary-0"
+        defaultValue={searchParams.get("search") || ""}
+        className="flex-1 py-3 text-xs bg-secondary-0 textField__input"
       />
-      <button
-        type="submit"
-        className="absolute left-0 top-0 ml-3 flex h-full items-center"
-      >
-        <MagnifyingGlassIcon className="h-4 text-secondary-400" />
+      <button type="submit" className="p-2">
+        <MagnifyingGlassIcon className="h-6 text-primary-800" />
       </button>
     </form>
   );

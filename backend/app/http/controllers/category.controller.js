@@ -45,7 +45,12 @@ class CategoryController extends Controller {
     const { id } = req.params;
     const { title, englishTitle, description } = req.body;
     await this.checkExistCategory(id);
-    await updateCategorySchema.validateAsync(req.body);
+    try {
+      await updateCategorySchema.validateAsync(req.body);
+    } catch (error) {
+      console.log("Validation Error:", error.details || error.message);
+      throw error;
+    }
     const updateResult = await CategoryModel.updateOne(
       { _id: id },
       {
@@ -84,6 +89,18 @@ class CategoryController extends Controller {
     if (!category)
       throw createHttpError.BadRequest("دسته بندی با این عنوان وجود ندارد.");
     return category;
+  }
+
+  async getCategoryById(req, res) {
+    const { id } = req.params;
+    const category = await this.checkExistCategory(id);
+
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      data: {
+        category,
+      },
+    });
   }
 }
 
